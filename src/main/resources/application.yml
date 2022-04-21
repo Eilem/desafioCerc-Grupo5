@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: holerite
+  datasource:
+    url: jdbc:mysql://localhost:3306/folha_de_pagamento?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
