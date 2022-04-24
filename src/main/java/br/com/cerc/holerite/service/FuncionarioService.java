@@ -1,5 +1,7 @@
 package br.com.cerc.holerite.service;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,15 +17,15 @@ import br.com.cerc.holerite.persistence.repository.FuncionarioRepository;
 @Service
 public class FuncionarioService {
 	private final FuncionarioRepository funcionarioRepository;
-	private final CargoService cargoService;
+	private final CargoRepository cargoRepository;
 	
-	public FuncionarioService(FuncionarioRepository funcionarioRepository, CargoService cargoService) {
+	public FuncionarioService(FuncionarioRepository funcionarioRepository, CargoRepository cargoRepository) {
 		this.funcionarioRepository = funcionarioRepository;
-		this.cargoService = cargoService;
+		this.cargoRepository = cargoRepository;
 	}
 	
 	public Funcionario findById(long id) {
-		return funcionarioRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Esse funcionario nao esta cadastrado no banco de dados"));
+		return funcionarioRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
 	}
 	
 	public Page<Funcionario> listAll(Pageable pageable) {
@@ -31,9 +33,15 @@ public class FuncionarioService {
 	}
 	
 	public Funcionario save(FuncionarioDTO dto) {
-		funcionarioRepository.findByCpf(dto.getCpf()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
-		Cargo cargo = cargoService.findById(dto.getCargo_id());
-		return new Funcionario(dto.getNome(), dto.getCpf(), cargo);
+		Funcionario funcionarioDB = funcionarioRepository.findByCpf(dto.getCpf());
+		Optional<Cargo> cargo = cargoRepository.findById(dto.getCargo_id());
+		
+		if(funcionarioDB != null || !cargo.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		}
+		
+		Funcionario funcionario  = new Funcionario(dto.getNome(), dto.getCpf(), cargo.get());
+		return funcionarioRepository.save(funcionario);
 	}
 	
 	public void delete(long id) {
@@ -43,7 +51,7 @@ public class FuncionarioService {
 	
 	public void replace(FuncionarioDTO dto) {
 		findById(dto.getId());
-		Cargo cargo = cargoService.findById(dto.getCargo_id());
+		Cargo cargo = cargoRepository.findById(dto.getCargo_id()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
 		funcionarioRepository.deleteById(dto.getId());
 		Funcionario funcionario = new Funcionario(dto.getNome(), dto.getCpf(), cargo);
 		funcionarioRepository.save(funcionario);

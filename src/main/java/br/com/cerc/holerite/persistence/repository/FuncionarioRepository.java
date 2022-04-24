@@ -9,6 +9,6 @@ import br.com.cerc.holerite.persistence.model.Funcionario;
 
 @Repository
 public interface FuncionarioRepository extends JpaRepository<Funcionario, Long>{
-	Optional<Funcionario> findByCpf(String cpf);
+	Funcionario findByCpf(String cpf);
 	
 }
