@@ -46,15 +46,14 @@ public class FuncionarioService {
 	
 	public void delete(long id) {
 		findById(id);
-		funcionarioRepository.deleteById(id);	
+		funcionarioRepository.deleteById(id);
 	}
 	
 	public void replace(FuncionarioDTO dto) {
 		findById(dto.getId());
-		Cargo cargo = cargoRepository.findById(dto.getCargo_id()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
-		funcionarioRepository.deleteById(dto.getId());
-		Funcionario funcionario = new Funcionario(dto.getNome(), dto.getCpf(), cargo);
-		funcionarioRepository.save(funcionario);
+		cargoRepository.findById(dto.getCargo_id()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+		delete(dto.getId());
+		save(dto);
 	}
 	
 		

@@ -50,6 +50,7 @@ public class FuncionarioEndpoint {
 	
 	@PutMapping
 	public ResponseEntity<?> replace(@RequestBody @Valid FuncionarioDTO dto) {
+		funcionarioService.replace(dto);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
