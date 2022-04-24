@@ -55,10 +55,8 @@ public class FolhaDePagamentoService {
 	}
 	
 	public void replace(FolhaDePagamentoDTO dto) {
-		folhaDePagamentoRepository.findById(dto.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
-		folhaDePagamentoRepository.deleteById(dto.getId());
-		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionarioService.findById(dto.getFunc_id()));
-		folhaDePagamentoRepository.save(folha);
+		delete(dto.getId());
+		save(dto);
 	}
 	
 	private FolhaDePagamento criarFolhaDePagamento(FolhaDePagamentoDTO dto, Funcionario funcionario) {

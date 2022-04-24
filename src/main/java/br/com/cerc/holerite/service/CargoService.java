@@ -26,14 +26,4 @@ public class CargoService {
 	public Page<Cargo> listAll(Pageable pageable) {
 		 return cargoRepository.findAll(pageable);
 	}
-	
-//	public ResponseEntity<?> replace(CargoDTO dto, long id) {
-//		Cargo cargoDB = cargoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
-//		String cargoNome = cargoDB.getNome();
-//		cargoRepository.delete(cargoDB);
-//		
-//		Cargo cargo = new Cargo(cargoNome, dto.getPagamentoHora());
-//		cargoRepository.save(cargo);
-//		return new ResponseEntity<>(HttpStatus.OK);
-//	}
 }
