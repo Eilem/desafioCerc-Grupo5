@@ -11,6 +11,8 @@ import br.com.cerc.holerite.persistence.dto.CargoDTO;
 import br.com.cerc.holerite.persistence.model.Cargo;
 import br.com.cerc.holerite.persistence.repository.CargoRepository;
 
+import java.util.Optional;
+
 @Service
 public class CargoService {
 	private final CargoRepository cargoRepository;
@@ -25,5 +27,13 @@ public class CargoService {
 	
 	public Page<Cargo> listAll(Pageable pageable) {
 		 return cargoRepository.findAll(pageable);
+	}
+
+	public Optional<Object> cadastrarCargo(Cargo cargoParaCadastrar) {
+		return cargoRepository.findByNome(cargoParaCadastrar.getNome()).map(cargoExistente -> {
+			return Optional.empty();
+		}).orElseGet(() -> {
+			return Optional.ofNullable(cargoRepository.save(cargoParaCadastrar));
+		});
 	}
 }
