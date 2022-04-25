@@ -1,4 +1,4 @@
-package br.com.cerc.holerite.endpoint;
+package br.com.cerc.holerite.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
-public class ApplicationUserEndpoint {
+public class ApplicationUserController {
 	
 	@GetMapping
 	public ResponseEntity<?> getAttack() {

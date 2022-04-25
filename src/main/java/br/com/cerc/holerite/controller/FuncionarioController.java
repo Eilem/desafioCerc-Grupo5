@@ -1,4 +1,4 @@
-package br.com.cerc.holerite.endpoint;
+package br.com.cerc.holerite.controller;
 
 import javax.validation.Valid;
 
@@ -15,15 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cerc.holerite.persistence.dto.FuncionarioDTO;
-import br.com.cerc.holerite.persistence.model.Funcionario;
 import br.com.cerc.holerite.service.FuncionarioService;
 
 @RestController
-@RequestMapping("funcionario")
-public class FuncionarioEndpoint {
+@RequestMapping("/api/v1/funcionario")
+public class FuncionarioController {
 	private final FuncionarioService funcionarioService;
 	
-	public FuncionarioEndpoint(FuncionarioService funcionarioService) {
+	public FuncionarioController(FuncionarioService funcionarioService) {
 		this.funcionarioService = funcionarioService;
 	}
 	

@@ -1,4 +1,4 @@
-package br.com.cerc.holerite.endpoint;
+package br.com.cerc.holerite.controller;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,11 +17,11 @@ import br.com.cerc.holerite.persistence.dto.FolhaDePagamentoDTO;
 import br.com.cerc.holerite.service.FolhaDePagamentoService;
 
 @RestController
-@RequestMapping("/folha")
-public class FolhaDePagamentoEndpoint {
+@RequestMapping("/api/v1/folha")
+public class FolhaDePagamentoController {
 	private final FolhaDePagamentoService folhaDePagamentoService;
 	
-	public FolhaDePagamentoEndpoint(FolhaDePagamentoService folhaDePagamentoService) {
+	public FolhaDePagamentoController(FolhaDePagamentoService folhaDePagamentoService) {
 		this.folhaDePagamentoService = folhaDePagamentoService;
 	}
 	
