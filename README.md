@@ -1,4 +1,4 @@
-# Desafio final da academia Gama- Cerc - Grupo 5
+# Desafio final da Gama Aacdemy - CERC - Grupo 5
 
 Desenvolvimento do desafio final
 
