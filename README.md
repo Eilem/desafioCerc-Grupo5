@@ -6,6 +6,7 @@ Desenvolvimento do desafio final
 ### Requisitos:
 
 - Java 11
+- Maven
 - Springboot 2.6.6
 
 ___
