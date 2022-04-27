@@ -1,9 +1,8 @@
- API MVP
+Entregáveis essenciais do desafio!!
+
 -----
 
- # Desafio final da Gama Academy - CERC - Grupo 5
-
-Desenvolvimento do desafio final
+ # Desafio final - Grupo 5
 
 
 ### Requisitos não funcionais:
@@ -18,9 +17,8 @@ ___
 
 ## Como executar a aplicação:
 
-Setar as informações  do ambiente:
+Setar as informações:
 
-- banco
 -
-
+-
 ____
