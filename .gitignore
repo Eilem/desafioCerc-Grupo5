@@ -4,6 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+## arquivo temporário do Workbench ##
+MER_BD_folhaPagamento.mwb.bak
+
+
 ### STS ###
 .apt_generated
 .classpath
