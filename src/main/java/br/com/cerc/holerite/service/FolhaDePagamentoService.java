@@ -2,22 +2,19 @@ package br.com.cerc.holerite.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.cerc.holerite.persistence.dto.FolhaDePagamentoDTO;
+import br.com.cerc.holerite.persistence.model.Adicionais;
+import br.com.cerc.holerite.persistence.model.Descontos;
 import br.com.cerc.holerite.persistence.model.FolhaDePagamento;
 import br.com.cerc.holerite.persistence.model.Funcionario;
 import br.com.cerc.holerite.persistence.repository.FolhaDePagamentoRepository;
-import br.com.cerc.holerite.persistence.repository.FuncionarioRepository;
-import br.com.cerc.holerite.service.util.Adicionais;
-import br.com.cerc.holerite.service.util.Descontos;
 
 @Service
 public class FolhaDePagamentoService {
@@ -54,8 +51,8 @@ public class FolhaDePagamentoService {
 		folhaDePagamentoRepository.deleteById(id);
 	}
 	
-	public void replace(FolhaDePagamentoDTO dto) {
-		delete(dto.getId());
+	public void replace(FolhaDePagamentoDTO dto, long id) {
+		delete(id);
 		save(dto);
 	}
 	
@@ -67,7 +64,7 @@ public class FolhaDePagamentoService {
 		String dataEmissao  = LocalDate.now().toString();
 		String mesRefencia = dto.getMesReferencia();
 		double salarioLiquido = salarioBruto - inss - irrf;
-	
+			
 		FolhaDePagamento folha = new FolhaDePagamento(funcionario, inss, irrf, fgts, dataEmissao, mesRefencia, salarioBruto, salarioLiquido);
 	
 		return folha;

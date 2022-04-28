@@ -24,8 +24,9 @@ public class FuncionarioService {
 		this.cargoRepository = cargoRepository;
 	}
 	
+	
 	public Funcionario findById(long id) {
-		return funcionarioRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+		return funcionarioRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.OK));
 	}
 	
 	public Page<Funcionario> listAll(Pageable pageable) {
@@ -49,10 +50,10 @@ public class FuncionarioService {
 		funcionarioRepository.deleteById(id);
 	}
 	
-	public void replace(FuncionarioDTO dto) {
-		findById(dto.getId());
+	public void replace(FuncionarioDTO dto, long id) {
+		findById(id);
 		cargoRepository.findById(dto.getCargo_id()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
-		delete(dto.getId());
+		delete(id);
 		save(dto);
 	}
 	
