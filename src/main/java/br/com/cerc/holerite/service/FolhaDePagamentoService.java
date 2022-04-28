@@ -41,7 +41,7 @@ public class FolhaDePagamentoService {
 	}
 	
 	public FolhaDePagamento save(FolhaDePagamentoDTO dto) {
-		Funcionario funcionario = funcionarioService.findById(dto.getFunc_id());
+		Funcionario funcionario = funcionarioService.findById(dto.getFuncId());
 		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionario);
 		return folhaDePagamentoRepository.save(folha);
 	}

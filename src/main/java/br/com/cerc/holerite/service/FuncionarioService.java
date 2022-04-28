@@ -35,7 +35,7 @@ public class FuncionarioService {
 	
 	public Funcionario save(FuncionarioDTO dto) {
 		Funcionario funcionarioDB = funcionarioRepository.findByCpf(dto.getCpf());
-		Optional<Cargo> cargo = cargoRepository.findById(dto.getCargo_id());
+		Optional<Cargo> cargo = cargoRepository.findById(dto.getCargoId());
 		
 		if(funcionarioDB != null || !cargo.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -52,7 +52,7 @@ public class FuncionarioService {
 	
 	public void replace(FuncionarioDTO dto, long id) {
 		findById(id);
-		cargoRepository.findById(dto.getCargo_id()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+		cargoRepository.findById(dto.getCargoId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
 		delete(id);
 		save(dto);
 	}

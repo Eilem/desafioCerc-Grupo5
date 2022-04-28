@@ -9,16 +9,16 @@ public class FuncionarioDTO {
 	@NotBlank(message = "O campo 'cpf' nao pode estar vazio")
 	private String cpf;
 	@NotNull(message = "O campo 'cargo_id' nao pode estar vazio")
-	private long cargo_id;
+	private long cargoId;
 	
 	public FuncionarioDTO() {
 		
 	}
 	
-	public FuncionarioDTO(String nome, String cpf, long cargo_id) {
+	public FuncionarioDTO(String nome, String cpf, long cargoId) {
 		this.nome = nome;
 		this.cpf = cpf;
-		this.cargo_id = cargo_id;
+		this.cargoId = cargoId;
 	}
 
 	public String getNome() {
@@ -37,13 +37,12 @@ public class FuncionarioDTO {
 		this.cpf = cpf;
 	}
 
-	public long getCargo_id() {
-		return cargo_id;
+	public long getCargoId() {
+		return cargoId;
 	}
 
-	public void setCargo_id(long cargo_id) {
-		this.cargo_id = cargo_id;
+	public void setCargoId(long cargoId) {
+		this.cargoId = cargoId;
 	}
-
 	
 }
