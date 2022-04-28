@@ -1,4 +1,6 @@
-package br.com.cerc.holerite.endpoint;
+package br.com.cerc.holerite.controller;
+
+import javax.validation.Valid;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,11 +19,11 @@ import br.com.cerc.holerite.persistence.dto.FolhaDePagamentoDTO;
 import br.com.cerc.holerite.service.FolhaDePagamentoService;
 
 @RestController
-@RequestMapping("/folha")
-public class FolhaDePagamentoEndpoint {
+@RequestMapping("/api/v1/folha")
+public class FolhaDePagamentoController {
 	private final FolhaDePagamentoService folhaDePagamentoService;
 	
-	public FolhaDePagamentoEndpoint(FolhaDePagamentoService folhaDePagamentoService) {
+	public FolhaDePagamentoController(FolhaDePagamentoService folhaDePagamentoService) {
 		this.folhaDePagamentoService = folhaDePagamentoService;
 	}
 	
@@ -41,7 +43,7 @@ public class FolhaDePagamentoEndpoint {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody FolhaDePagamentoDTO dto){
+	public ResponseEntity<?> save(@RequestBody @Valid FolhaDePagamentoDTO dto){
 		return new ResponseEntity<>(folhaDePagamentoService.save(dto), HttpStatus.CREATED);
 	}
 	
@@ -51,9 +53,9 @@ public class FolhaDePagamentoEndpoint {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@PutMapping
-	public ResponseEntity<?> replace(@RequestBody FolhaDePagamentoDTO dto) {
-		folhaDePagamentoService.replace(dto);
+	@PutMapping("/{id}")
+	public ResponseEntity<?> replace(@RequestBody @Valid FolhaDePagamentoDTO dto, @PathVariable long id) {
+		folhaDePagamentoService.replace(dto, id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

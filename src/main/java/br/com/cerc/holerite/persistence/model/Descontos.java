@@ -1,4 +1,4 @@
-package br.com.cerc.holerite.service.util;
+package br.com.cerc.holerite.persistence.model;
 
 public class Descontos {
 	private static double inssValorDevido1 = 82.50;
@@ -32,6 +32,10 @@ public class Descontos {
 			return inssValorTeto;
 		}
 	
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(calcularINSS(2500));
 	}
 	
 	public static double calcularIRRF(double salario, double INSS) {

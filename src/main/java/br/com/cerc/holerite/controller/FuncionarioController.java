@@ -1,10 +1,11 @@
-package br.com.cerc.holerite.endpoint;
+package br.com.cerc.holerite.controller;
 
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,17 +20,17 @@ import br.com.cerc.holerite.persistence.model.Funcionario;
 import br.com.cerc.holerite.service.FuncionarioService;
 
 @RestController
-@RequestMapping("funcionario")
-public class FuncionarioEndpoint {
+@RequestMapping("/api/v1/funcionario")
+public class FuncionarioController {
 	private final FuncionarioService funcionarioService;
 	
-	public FuncionarioEndpoint(FuncionarioService funcionarioService) {
+	public FuncionarioController(FuncionarioService funcionarioService) {
 		this.funcionarioService = funcionarioService;
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable long id) {
-		return new ResponseEntity<>(funcionarioService.findById(id), HttpStatus.OK);
+		return new ResponseEntity<>(funcionarioService.findById(id), HttpStatus.OK);	
 	}
 	
 	@GetMapping
@@ -38,8 +39,8 @@ public class FuncionarioEndpoint {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody @Valid FuncionarioDTO funcionarioDTO) {
-		return new ResponseEntity<>(funcionarioService.save(funcionarioDTO), HttpStatus.CREATED);
+	public ResponseEntity<?> save(@RequestBody @Valid FuncionarioDTO dto) {
+		return new ResponseEntity<>(funcionarioService.save(dto), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -48,9 +49,9 @@ public class FuncionarioEndpoint {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@PutMapping
-	public ResponseEntity<?> replace(@RequestBody @Valid FuncionarioDTO dto) {
-		funcionarioService.replace(dto);
+	@PutMapping("/{id}")
+	public ResponseEntity<?> replace(@RequestBody @Valid FuncionarioDTO dto, @PathVariable long id) {
+		funcionarioService.replace(dto, id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

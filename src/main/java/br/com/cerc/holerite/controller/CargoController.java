@@ -1,4 +1,4 @@
-package br.com.cerc.holerite.endpoint;
+package br.com.cerc.holerite.controller;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.cerc.holerite.service.CargoService;
 
 @RestController
-@RequestMapping("/cargo")
-public class CargoEndpoint {
+@RequestMapping("/api/v1/cargo")
+public class CargoController {
 	private final CargoService cargoService;
 	
-	public CargoEndpoint(CargoService cargoService) {
+	public CargoController(CargoService cargoService) {
 		this.cargoService = cargoService;
 	}
 	

@@ -3,7 +3,6 @@ package br.com.cerc.holerite.persistence.dto;
 import javax.validation.constraints.NotBlank;
 
 public class FolhaDePagamentoDTO {
-	private long id;
 	@NotBlank(message = "O campo 'func_id' nao pode estar vazio")
 	private long func_id;
 	@NotBlank(message = "O campo 'horasTrabalhadas' nao pode estar vazio")
@@ -20,20 +19,7 @@ public class FolhaDePagamentoDTO {
 		this.horasTrabalhadas = horasTrabalhadas;
 		this.mesReferencia = mesReferencia;
 	}
-	
-	public FolhaDePagamentoDTO(long id, long func_id, long horasTrabalhadas, String mesReferencia) {
-		this.id = id;
-		this.func_id = func_id;
-		this.horasTrabalhadas = horasTrabalhadas;
-		this.mesReferencia = mesReferencia;
-	}
-	
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
+
 	public long getFunc_id() {
 		return func_id;
 	}
