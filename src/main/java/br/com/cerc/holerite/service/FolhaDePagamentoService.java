@@ -2,6 +2,7 @@ package br.com.cerc.holerite.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.cerc.holerite.persistence.dto.FolhaDePagamentoDTO;
 import br.com.cerc.holerite.persistence.model.Adicionais;
+import br.com.cerc.holerite.persistence.model.Cargo;
 import br.com.cerc.holerite.persistence.model.Descontos;
 import br.com.cerc.holerite.persistence.model.FolhaDePagamento;
 import br.com.cerc.holerite.persistence.model.Funcionario;
@@ -52,8 +54,13 @@ public class FolhaDePagamentoService {
 	}
 	
 	public void replace(FolhaDePagamentoDTO dto, long id) {
-		delete(id);
-		save(dto);
+		findById(id);
+		Funcionario funcionario = funcionarioService.findById(dto.getFuncId());
+		
+		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionario);
+		
+		folha.setId(id);
+		folhaDePagamentoRepository.save(folha);
 	}
 	
 	private FolhaDePagamento criarFolhaDePagamento(FolhaDePagamentoDTO dto, Funcionario funcionario) {

@@ -11,16 +11,6 @@ public class FuncionarioDTO {
 	@NotNull(message = "O campo 'cargo_id' nao pode estar vazio")
 	private long cargoId;
 	
-	public FuncionarioDTO() {
-		
-	}
-	
-	public FuncionarioDTO(String nome, String cpf, long cargoId) {
-		this.nome = nome;
-		this.cpf = cpf;
-		this.cargoId = cargoId;
-	}
-
 	public String getNome() {
 		return nome;
 	}

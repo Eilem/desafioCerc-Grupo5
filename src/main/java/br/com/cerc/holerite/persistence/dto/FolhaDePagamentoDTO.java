@@ -10,16 +10,6 @@ public class FolhaDePagamentoDTO {
 	private long horasTrabalhadas;
 	@NotBlank(message = "O campo 'mesReferencia' nao pode estar vazio")
 	private String mesReferencia;
-	
-	public FolhaDePagamentoDTO() {
-		
-	}
-	
-	public FolhaDePagamentoDTO(long funcId, long horasTrabalhadas, String mesReferencia) {
-		this.funcId = funcId;
-		this.horasTrabalhadas = horasTrabalhadas;
-		this.mesReferencia = mesReferencia;
-	}
 
 	public long getFuncId() {
 		return funcId;

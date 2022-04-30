@@ -1,13 +1,20 @@
 package br.com.cerc.holerite.persistence.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "funcionarios")
@@ -21,7 +28,11 @@ public class Funcionario {
 	@Size(min = 11, max = 11)
 	private String cpf;
 	@ManyToOne
+	@JoinColumn(name = "cargo_id")
+	@JsonIgnoreProperties("funcionario")
 	private Cargo cargo;
+	@OneToMany
+	private List<FolhaDePagamento> folhaDePagamento = new ArrayList<>();
 	
 	public Funcionario() {
 		

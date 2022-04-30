@@ -7,5 +7,5 @@ import br.com.cerc.holerite.persistence.model.Cargo;
 
 @Repository
 public interface CargoRepository extends JpaRepository<Cargo, Long>{
-
+	Cargo findByNome(String nome);
 }
