@@ -72,8 +72,17 @@ public class FolhaDePagamentoService {
 		String mesRefencia = dto.getMesReferencia();
 		double salarioLiquido = salarioBruto - inss - irrf;
 			
-		FolhaDePagamento folha = new FolhaDePagamento(funcionario, inss, irrf, fgts, dataEmissao, mesRefencia, salarioBruto, salarioLiquido);
+		FolhaDePagamento folha = new FolhaDePagamento(funcionario, round(inss, 2), round(irrf, 2), round(fgts, 2), dataEmissao, mesRefencia, round(salarioBruto, 2), round(salarioLiquido, 2));
 	
 		return folha;
+	}
+	
+	private static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
 	}
 }
