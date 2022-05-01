@@ -26,7 +26,7 @@ public class FuncionarioService {
 	
 	
 	public Funcionario findById(long id) {
-		return funcionarioRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.OK));
+		return funcionarioRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
 	}
 	
 	public Page<Funcionario> listAll(Pageable pageable) {
