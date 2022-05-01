@@ -41,7 +41,7 @@ public class FuncionarioService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 		
-		Funcionario funcionario  = new Funcionario(dto.getNome(), dto.getCpf(), cargo.get());
+		Funcionario funcionario  = new Funcionario(dto.getNome(), dto.getCpf().replaceAll(" ",""), cargo.get());
 		return funcionarioRepository.save(funcionario);
 	}
 	
