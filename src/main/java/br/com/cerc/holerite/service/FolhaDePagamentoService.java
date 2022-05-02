@@ -44,6 +44,9 @@ public class FolhaDePagamentoService {
 	
 	public FolhaDePagamento save(FolhaDePagamentoDTO dto) {
 		Funcionario funcionario = funcionarioService.findById(dto.getFuncId());
+		
+		validarIntegridadeDosDados(dto, funcionario);
+		
 		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionario);
 		return folhaDePagamentoRepository.save(folha);
 	}
@@ -57,6 +60,8 @@ public class FolhaDePagamentoService {
 		findById(id);
 		Funcionario funcionario = funcionarioService.findById(dto.getFuncId());
 		
+		validarIntegridadeDosDados(dto, funcionario);
+		
 		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionario);
 		
 		folha.setId(id);
@@ -69,12 +74,25 @@ public class FolhaDePagamentoService {
 		double irrf = Descontos.calcularIRRF(salarioBruto, inss);
 		double fgts = Adicionais.calcularFGTS(salarioBruto);
 		String dataEmissao  = LocalDate.now().toString();
-		String mesRefencia = dto.getMesReferencia();
+		String mesRefencia = dto.getAnoReferencia() + "-" + dto.getMesReferencia();
 		double salarioLiquido = salarioBruto - inss - irrf;
 			
 		FolhaDePagamento folha = new FolhaDePagamento(funcionario, round(inss, 2), round(irrf, 2), round(fgts, 2), dataEmissao, mesRefencia, round(salarioBruto, 2), round(salarioLiquido, 2));
 	
 		return folha;
+	}
+	
+	private void validarIntegridadeDosDados(FolhaDePagamentoDTO dto, Funcionario funcionario) {
+		FolhaDePagamento folhaDB = folhaDePagamentoRepository
+				.findByFuncionarioAndMesReferencia(funcionario, dto.getAnoReferencia() + "-" + dto.getMesReferencia());
+		
+		if(folhaDB != null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		}
+		
+		if(dto.getMesReferencia() > 12 || dto.getMesReferencia() < 1 || dto.getAnoReferencia() < 1) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	private static double round(double value, int places) {
