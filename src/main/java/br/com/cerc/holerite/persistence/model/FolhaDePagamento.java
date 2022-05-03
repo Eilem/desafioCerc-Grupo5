@@ -16,23 +16,31 @@ public class FolhaDePagamento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+
+	@Column(nullable = false)
+	private double INSS;
+
+	@Column(nullable = false)
+	private double IRRF;
+
+	@Column(nullable = false)
+	private double FGTS;
+
+	@Column(nullable = false)
+	private String dataEmissao;
+
+	@Column(nullable = false)
+	private String mesReferencia;
+
+	@Column(nullable = false)
+	private double salarioBruto;
+
+	@Column(nullable = false)
+	private double salarioLiquido;
+
 	@ManyToOne
 	@JoinColumn(name = "funcionario_id")
 	private Funcionario funcionario;
-	@Column(nullable = false)
-	private double INSS;
-	@Column(nullable = false)
-	private double IRRF;
-	@Column(nullable = false)
-	private double FGTS;
-	@Column(nullable = false)
-	private String dataEmissao;
-	@Column(nullable = false)
-	private String mesReferencia;
-	@Column(nullable = false)
-	private double salarioBruto;
-	@Column(nullable = false)
-	private double salarioLiquido;
 	
 	public FolhaDePagamento() {
 		

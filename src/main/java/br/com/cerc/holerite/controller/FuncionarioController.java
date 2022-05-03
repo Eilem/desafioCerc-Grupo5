@@ -2,6 +2,9 @@ package br.com.cerc.holerite.controller;
 
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,28 +30,53 @@ public class FuncionarioController {
 	public FuncionarioController(FuncionarioService funcionarioService) {
 		this.funcionarioService = funcionarioService;
 	}
-	
+
+	@ApiOperation(value = "Busca usuario por Id")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Retorna usuario existente ou inexistente"),
+			@ApiResponse(code = 400, message = "Retorno inexistente")
+	})
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable long id) {
 		return new ResponseEntity<>(funcionarioService.findById(id), HttpStatus.OK);	
 	}
-	
+
+	@ApiOperation(value = "Busca lista de usuarios no sistema")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Retorna com Usuarios"),
+			@ApiResponse(code = 204, message = "Retorno sem Usuario")
+	})
 	@GetMapping
 	public ResponseEntity<?> listAll(Pageable pageable) {
 		return new ResponseEntity<>(funcionarioService.listAll(pageable), HttpStatus.OK);
 	}
-	
+
+	@ApiOperation(value = "Salva novo usuario no sistema")
+	@ApiResponses(value = {
+			@ApiResponse(code = 201, message = "Retorna usuario cadastrado"),
+			@ApiResponse(code = 400, message = "Erro na requisição")
+	})
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody @Valid FuncionarioDTO dto) {
 		return new ResponseEntity<>(funcionarioService.save(dto), HttpStatus.CREATED);
 	}
-	
+
+	@ApiOperation(value = "Deletar usuário existente")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Usuário deletado!"),
+			@ApiResponse(code = 400, message = "Id de usuário invalido")
+	})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable long id) {
 		funcionarioService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
+	@ApiOperation(value = "Atualizar usuario existente")
+	@ApiResponses(value = {
+			@ApiResponse(code = 201, message = "Retorna usuario atualizado"),
+			@ApiResponse(code = 400, message = "Id de usuario invalido")
+	})
 	@PutMapping("/{id}")
 	public ResponseEntity<?> replace(@RequestBody @Valid FuncionarioDTO dto, @PathVariable long id) {
 		funcionarioService.replace(dto, id);

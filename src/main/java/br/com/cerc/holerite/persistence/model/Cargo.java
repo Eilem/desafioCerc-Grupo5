@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Table(name = "cargos")
@@ -22,13 +23,16 @@ public class Cargo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+
 	@Column(nullable = false)
 	private String nome;
+
 	@Column(nullable = false)
 	private double pagamentoHora;
 
 	@OneToMany(mappedBy = "cargo")
 	@JsonIgnoreProperties("funcionario")
+	@ApiModelProperty(hidden = true)
 	private List<Funcionario> funcionarios = new ArrayList<>();
 	
 	public Cargo() {
