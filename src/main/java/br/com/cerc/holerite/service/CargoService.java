@@ -1,6 +1,8 @@
 package br.com.cerc.holerite.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,13 +15,16 @@ import br.com.cerc.holerite.persistence.dto.CargoDTO;
 import br.com.cerc.holerite.persistence.model.Cargo;
 import br.com.cerc.holerite.persistence.model.Funcionario;
 import br.com.cerc.holerite.persistence.repository.CargoRepository;
+import br.com.cerc.holerite.persistence.repository.FuncionarioRepository;
 
 @Service
 public class CargoService {
 	private final CargoRepository cargoRepository;
+	private final FuncionarioRepository funcionarioRepository;
 	
-	public CargoService(CargoRepository cargoRepository) {
+	public CargoService(CargoRepository cargoRepository, FuncionarioRepository funcionarioRepository) {
 		this.cargoRepository = cargoRepository;
+		this.funcionarioRepository = funcionarioRepository;
 	}
 	
 	public Cargo findById(long id) {
@@ -42,7 +47,16 @@ public class CargoService {
 	}
 	
 	public void delete(long id) {
-		findById(id);
+		Cargo cargo = findById(id);
+		
+		List<Funcionario> funcionarios = funcionarioRepository.findAllByCargo(cargo);
+		
+		funcionarios.stream().forEach(funcionario -> funcionario.setCargo(null));
+		
+		for(Funcionario funcionario : funcionarios) {
+			funcionarioRepository.save(funcionario);
+		}
+		
 		cargoRepository.deleteById(id);
 	}
 	
