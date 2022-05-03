@@ -31,13 +31,13 @@ public class Funcionario {
 	@JoinColumn(name = "cargo_id")
 	@JsonIgnoreProperties("funcionario")
 	private Cargo cargo;
-	@OneToMany
+
+	@OneToMany(mappedBy = "folha_de_pagamento" )
 	private List<FolhaDePagamento> folhaDePagamento = new ArrayList<>();
 	
 	public Funcionario() {
 		
 	}
-	
 
 	public Funcionario(String nome, String cpf, Cargo cargo) {
 		super();
@@ -46,49 +46,32 @@ public class Funcionario {
 		this.cargo = cargo;
 	}
 
-
-
 	public long getId() {
 		return id;
 	}
-
-
 
 	public void setId(long id) {
 		this.id = id;
 	}
 
-
-
 	public String getNome() {
 		return nome;
 	}
-
-
 
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-
-
 	public String getCpf() {
 		return cpf;
 	}
 
-
-
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-
-
-
-	public Cargo getCargo() {
+		public Cargo getCargo() {
 		return cargo;
 	}
-
-
 
 	public void setCargo(Cargo cargo) {
 		this.cargo = cargo;

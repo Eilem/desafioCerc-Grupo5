@@ -26,7 +26,8 @@ public class Cargo {
 	private String nome;
 	@Column(nullable = false)
 	private double pagamentoHora;
-	@OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "cargo")
 	@JsonIgnoreProperties("funcionario")
 	private List<Funcionario> funcionarios = new ArrayList<>();
 	

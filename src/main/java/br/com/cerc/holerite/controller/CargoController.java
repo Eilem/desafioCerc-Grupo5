@@ -38,6 +38,7 @@ public class CargoController {
 	
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody @Valid CargoDTO dto) {
+
 		return new ResponseEntity<>(cargoService.save(dto), HttpStatus.OK);
 	}
 	
