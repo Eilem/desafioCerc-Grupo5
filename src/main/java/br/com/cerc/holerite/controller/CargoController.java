@@ -2,6 +2,9 @@ package br.com.cerc.holerite.controller;
 
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,28 +28,52 @@ public class CargoController {
 	public CargoController(CargoService cargoService) {
 		this.cargoService = cargoService;
 	}
-	
+
+	@ApiOperation(value = "Busca cargo por Id")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Retorna cargo existente"),
+			@ApiResponse(code = 204, message = "Retorno inexistente")
+	})
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable long id) {
 		return new ResponseEntity<>(cargoService.findById(id), HttpStatus.OK);
 	}
-	
+
+	@ApiOperation(value = "Busca todas os cargos")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Retorna cargo existente"),
+			@ApiResponse(code = 204, message = "Retorno inexistente")
+	})
 	@GetMapping
 	public ResponseEntity<?> listAll(Pageable page) {
 		return new ResponseEntity<>(cargoService.listAll(page), HttpStatus.OK);
 	}
-	
+
+	@ApiOperation(value = "Salva novo cargo no sistema")
+	@ApiResponses(value = {
+			@ApiResponse(code = 201, message = "Retorna cargo cadastrada")
+	})
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody @Valid CargoDTO dto) {
+
 		return new ResponseEntity<>(cargoService.save(dto), HttpStatus.OK);
 	}
-	
+
+	@ApiOperation(value = "Deletar cargo existente")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Caso deletada!"),
+			@ApiResponse(code = 400, message = "Id de cargo invalido")
+	})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable long id){
 		cargoService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
+	@ApiOperation(value = "Atualizar cargo existente")
+	@ApiResponses(value = {
+			@ApiResponse(code = 201, message = "Retorna cargo atualizada")
+	})
 	@PutMapping("/{id}")
 	public ResponseEntity<?> replace(@RequestBody @Valid CargoDTO dto, @PathVariable long id) {
 		cargoService.replace(dto, id);
