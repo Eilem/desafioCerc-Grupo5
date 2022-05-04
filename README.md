@@ -27,6 +27,7 @@ username: coloque aqui o nome do usuário do seu banco MySQL
 password: coloque aqui sua senha de acesso ao seu banco MySQL
 
 ````
+ 
 
 ### Observação: 
 verifique se não há outra aplicação rodando na porta **8080** pois a esta aplicação é executada na porta  8080, caso esta esteja ocupada , você  terá um erro e não conseguirá acessar a aplicação.
