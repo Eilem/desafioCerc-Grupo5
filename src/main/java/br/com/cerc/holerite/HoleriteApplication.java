@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 @SpringBootApplication
 public class HoleriteApplication {
 
-	@GetMapping
+	@GetMapping("/doc/api")
 	public ModelAndView swaggerUi() {
 		return new ModelAndView("redirect:/swagger-ui/");
 	}

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -26,9 +28,15 @@ public class CargoService {
 		this.cargoRepository = cargoRepository;
 		this.funcionarioRepository = funcionarioRepository;
 	}
-	
-	public Cargo findById(long id) {
-		return cargoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+
+	public Cargo findByNome(String nomeCargo) {
+		return cargoRepository.findByNome( nomeCargo );
+	}
+
+
+	public Optional<Cargo> findById(long id) 
+	{
+		return cargoRepository.findById(id);
 	}
 	
 	public Page<Cargo> listAll(Pageable pageable) {
@@ -36,6 +44,7 @@ public class CargoService {
 	}
 	
 	public Cargo save(CargoDTO dto) {
+		//@todo ver pra retornar por id do que foi inserido
 		Cargo cargoDB = cargoRepository.findByNome(dto.getNome());
 		
 		if(cargoDB != null) {
@@ -45,10 +54,15 @@ public class CargoService {
 		Cargo cargo  = new Cargo(dto.getNome(), dto.getPagamentoHora());
 		return cargoRepository.save(cargo);
 	}
-	
-	public void delete(long id) {
-		Cargo cargo = findById(id);
-		
+
+	public Cargo getCargoByNome( String nome)
+	{
+		return cargoRepository.findByNome(nome);
+	}
+
+	@Transactional
+	public void delete( Cargo cargo) 
+	{
 		List<Funcionario> funcionarios = funcionarioRepository.findAllByCargo(cargo);
 		
 		funcionarios.stream().forEach(funcionario -> funcionario.setCargo(null));
@@ -57,7 +71,7 @@ public class CargoService {
 			funcionarioRepository.save(funcionario);
 		}
 		
-		cargoRepository.deleteById(id);
+		cargoRepository.delete(cargo);
 	}
 	
 	public void replace(CargoDTO dto, long id) {

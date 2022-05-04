@@ -41,12 +41,11 @@ mvn spring-boot:run
 
 ````
 
-Documentação da API
+#Documentação da API
 
 ´Para acessar a documentação da API após executar a aplicação acesse em seu navegador: 
 
-localhost:8080
-
+localhost:8080/doc/api
 
 
 ____
