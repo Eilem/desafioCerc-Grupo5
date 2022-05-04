@@ -50,3 +50,8 @@ localhost:8080/doc/api
 
 
 ____
+
+# Requisitos Funcionais
+____
+
+# Requisitos Postergados
