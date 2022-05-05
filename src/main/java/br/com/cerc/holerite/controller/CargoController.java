@@ -115,7 +115,7 @@ public class CargoController {
 		Optional<Cargo> cargo = cargoService.findById(id);
 
 
-		if((String) cargoDto.getNome() == null || cargoDto.getNome().isEmpty()){
+		if( cargoDto.getNome() == null || cargoDto.getNome().isEmpty()){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Campo nome é obrigatório!");
 		}
 
@@ -124,6 +124,6 @@ public class CargoController {
         }
 		//@todo RN -> validar se o novo nome do cargo já não pertence há outro cargo cadastrado com id diferente 
 		cargoService.replace(cargo.get() , cargoDto);
-		return ResponseEntity.status(HttpStatus.OK).body("Cargo editado com sucesso");
+		return ResponseEntity.status(HttpStatus.OK).body("Cargo editado com sucesso!");
 	}
 }
