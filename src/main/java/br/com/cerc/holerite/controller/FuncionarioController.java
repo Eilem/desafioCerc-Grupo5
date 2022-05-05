@@ -23,12 +23,50 @@ import br.com.cerc.holerite.persistence.model.Funcionario;
 import br.com.cerc.holerite.service.FuncionarioService;
 
 @RestController
-@RequestMapping("/api/v1/funcionario")
+@RequestMapping("/api/v1/funcionarios")
 public class FuncionarioController {
 	private final FuncionarioService funcionarioService;
 	
 	public FuncionarioController(FuncionarioService funcionarioService) {
 		this.funcionarioService = funcionarioService;
+	}
+
+	@ApiOperation(value = "Salva novo usuario no sistema")
+	@ApiResponses(value = {
+			@ApiResponse(code = 201, message = "Retorna usuario cadastrado"),
+			@ApiResponse(code = 400, message = "Erro na requisição")
+	})
+	@PostMapping
+	public ResponseEntity<?> save(@RequestBody @Valid FuncionarioDTO funcionarioDto) {
+
+		if(funcionarioDto.getCpf() == null || funcionarioDto.getCpf().isEmpty()){
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo CPF é obrigatório!");
+		}
+
+		String cpfSemEspacos = funcionarioDto.getCpf().replaceAll(" ","");
+		int tamanhoCpf = cpfSemEspacos.length();
+
+		if(tamanhoCpf != 11){
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo CPF deve ter 11 números sem espaço entre eles!");
+		}
+
+		if(funcionarioDto.getNome() == null || funcionarioDto.getNome().isEmpty()){
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo nome é obrigatório");
+		}
+
+		if(funcionarioDto.getCargoId() == 0 || funcionarioDto.getCargoId() < 1){
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo id cargo não pode ser vazio ou menor igual a zero");
+		}
+
+		//busco no banco se já existe cargo com o nome recebido
+		Funcionario funcionarioEncontrado = funcionarioService.getFuncionarioByCPF(funcionarioDto.getCpf());
+		if(funcionarioEncontrado != null){
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe um funcionário com este CPF!");
+		} else {
+			return new ResponseEntity<>(funcionarioService.save(funcionarioDto), HttpStatus.CREATED);
+		}
+
+
 	}
 
 	@ApiOperation(value = "Busca usuario por Id")
@@ -49,16 +87,6 @@ public class FuncionarioController {
 	@GetMapping
 	public ResponseEntity<?> listAll(Pageable pageable) {
 		return new ResponseEntity<>(funcionarioService.listAll(pageable), HttpStatus.OK);
-	}
-
-	@ApiOperation(value = "Salva novo usuario no sistema")
-	@ApiResponses(value = {
-			@ApiResponse(code = 201, message = "Retorna usuario cadastrado"),
-			@ApiResponse(code = 400, message = "Erro na requisição")
-	})
-	@PostMapping
-	public ResponseEntity<?> save(@RequestBody @Valid FuncionarioDTO dto) {
-		return new ResponseEntity<>(funcionarioService.save(dto), HttpStatus.CREATED);
 	}
 
 	@ApiOperation(value = "Deletar usuário existente")

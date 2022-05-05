@@ -68,4 +68,8 @@ public class FuncionarioService {
 		
 		funcionarioRepository.save(funcionario);
 	}
+
+	public Funcionario getFuncionarioByCPF(String cpf) {
+		return funcionarioRepository.findByCpf(cpf);
+	}
 }
