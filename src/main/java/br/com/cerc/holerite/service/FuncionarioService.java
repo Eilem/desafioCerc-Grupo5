@@ -15,6 +15,7 @@ import br.com.cerc.holerite.persistence.repository.CargoRepository;
 import br.com.cerc.holerite.persistence.repository.FuncionarioRepository;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 
 @Service
 public class FuncionarioService {
@@ -56,24 +57,16 @@ public class FuncionarioService {
 		findById(id);
 		funcionarioRepository.deleteById(id);
 	}
-	
-	public void replace(FuncionarioDTO dto, long id) {
-//		Funcionario funcionarioDB = findById(id);
-//
-//		Optional<Cargo> cargo = cargoRepository.findById(dto.getCargoId());
-//
-//		if(!funcionarioDB.getCpf().equals(dto.getCpf()) || !cargo.isPresent()) {
-//			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//		}
-//
-//		Funcionario funcionario = new Funcionario();
-//
-//		funcionario.setId(id);
-//		funcionario.setCargo(cargo.get());
-//		funcionario.setCpf(dto.getCpf());
-//		funcionario.setNome(dto.getNome());
-//
-//		funcionarioRepository.save(funcionario);
+
+	public Funcionario replace(Funcionario funcionario, FuncionarioDTO funcionarioDto) {
+
+		Optional<Cargo> cargo = cargoRepository.findById(funcionarioDto.getCargoId());
+
+		funcionario.setCargo(cargo.get());
+		funcionario.setCpf(funcionarioDto.getCpf());
+		funcionario.setNome(funcionarioDto.getNome());
+
+		return funcionarioRepository.save(funcionario);
 	}
 
 

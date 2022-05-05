@@ -61,7 +61,7 @@ public class FuncionarioController {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo id cargo não pode ser vazio ou menor igual a zero");
 		}
 
-		//busco no banco se já existe cargo com o nome recebido
+		//busco no banco se já existe funcionario com o cpf recebido
 		Funcionario funcionarioEncontrado = funcionarioService.getFuncionarioByCPF(funcionarioDto.getCpf());
 		if(funcionarioEncontrado != null){
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe um funcionário com este CPF!");
@@ -119,8 +119,44 @@ public class FuncionarioController {
 			@ApiResponse(code = 400, message = "Id de usuario invalido")
 	})
 	@PutMapping("/{id}")
-	public ResponseEntity<?> replace(@RequestBody @Valid FuncionarioDTO dto, @PathVariable long id) {
-		funcionarioService.replace(dto, id);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<?> replace(@RequestBody @Valid FuncionarioDTO funcionarioDto, @PathVariable long id) {
+		Optional<Funcionario> funcionario = funcionarioService.findById(id);
+
+		if(funcionarioDto.getCpf() == null || funcionarioDto.getCpf().isEmpty()){
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo CPF é obrigatório!");
+		}
+
+		//Criação de validação para verificar se o CPF possui 11 caracteres
+		String cpfSemEspacos = funcionarioDto.getCpf().replaceAll(" ","");
+		int tamanhoCpf = cpfSemEspacos.length();
+
+		if(tamanhoCpf != 11){
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo CPF deve ter 11 números sem espaço entre eles!");
+		}
+
+		if(funcionarioDto.getCargoId() == 0 || funcionarioDto.getCargoId() < 1){
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo id cargo não pode ser vazio ou menor igual a zero");
+		}
+
+		if(funcionarioDto.getNome() == null || funcionarioDto.getNome().isEmpty()){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Campo nome é obrigatório!");
+		}
+
+		if(!funcionario.isPresent()){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Funcionário não localizado.");
+		}
+
+		//busco no banco se já existe cargo com o nome recebido
+		Funcionario funcionarioEncontrado = funcionarioService.getFuncionarioByCPF(funcionarioDto.getCpf());
+		if(funcionarioEncontrado != null){
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe um funcionário com este CPF!");
+		} else {
+			funcionarioService.replace(funcionario.get() ,funcionarioDto);
+		}
+
+		return  ResponseEntity.status(HttpStatus.OK).body("Funcionário editado com sucesso!");
 	}
+
+
+
 }
