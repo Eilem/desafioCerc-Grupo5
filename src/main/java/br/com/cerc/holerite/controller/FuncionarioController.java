@@ -22,6 +22,8 @@ import br.com.cerc.holerite.persistence.dto.FuncionarioDTO;
 import br.com.cerc.holerite.persistence.model.Funcionario;
 import br.com.cerc.holerite.service.FuncionarioService;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/v1/funcionarios")
 public class FuncionarioController {
@@ -43,6 +45,7 @@ public class FuncionarioController {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo CPF é obrigatório!");
 		}
 
+		//Criação de validação para verificar se o CPF possui 11 caracteres
 		String cpfSemEspacos = funcionarioDto.getCpf().replaceAll(" ","");
 		int tamanhoCpf = cpfSemEspacos.length();
 
@@ -66,7 +69,6 @@ public class FuncionarioController {
 			return new ResponseEntity<>(funcionarioService.save(funcionarioDto), HttpStatus.CREATED);
 		}
 
-
 	}
 
 	@ApiOperation(value = "Busca usuario por Id")
@@ -76,7 +78,12 @@ public class FuncionarioController {
 	})
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable long id) {
-		return new ResponseEntity<>(funcionarioService.findById(id), HttpStatus.OK);	
+		Optional<Funcionario> funcionario = funcionarioService.findById(id);
+		if(!funcionario.isPresent()){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Funcionário não localizado");
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body(funcionario.get());
 	}
 
 	@ApiOperation(value = "Busca lista de usuarios no sistema")

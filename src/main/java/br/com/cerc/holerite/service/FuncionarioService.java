@@ -25,8 +25,8 @@ public class FuncionarioService {
 	}
 	
 	
-	public Funcionario findById(long id) {
-		return funcionarioRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+	public Optional<Funcionario> findById(long id) {
+		return funcionarioRepository.findById(id);
 	}
 	
 	public Page<Funcionario> listAll(Pageable pageable) {
@@ -51,22 +51,22 @@ public class FuncionarioService {
 	}
 	
 	public void replace(FuncionarioDTO dto, long id) {
-		Funcionario funcionarioDB = findById(id);
-	
-		Optional<Cargo> cargo = cargoRepository.findById(dto.getCargoId());
-		
-		if(!funcionarioDB.getCpf().equals(dto.getCpf()) || !cargo.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-		}
-		
-		Funcionario funcionario = new Funcionario();
-		
-		funcionario.setId(id);
-		funcionario.setCargo(cargo.get());
-		funcionario.setCpf(dto.getCpf());
-		funcionario.setNome(dto.getNome());
-		
-		funcionarioRepository.save(funcionario);
+//		Funcionario funcionarioDB = findById(id);
+//
+//		Optional<Cargo> cargo = cargoRepository.findById(dto.getCargoId());
+//
+//		if(!funcionarioDB.getCpf().equals(dto.getCpf()) || !cargo.isPresent()) {
+//			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//		}
+//
+//		Funcionario funcionario = new Funcionario();
+//
+//		funcionario.setId(id);
+//		funcionario.setCargo(cargo.get());
+//		funcionario.setCpf(dto.getCpf());
+//		funcionario.setNome(dto.getNome());
+//
+//		funcionarioRepository.save(funcionario);
 	}
 
 	public Funcionario getFuncionarioByCPF(String cpf) {
