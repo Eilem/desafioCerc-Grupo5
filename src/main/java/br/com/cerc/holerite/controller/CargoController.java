@@ -113,6 +113,12 @@ public class CargoController {
 	@PutMapping("/{id}")
 	public ResponseEntity<?> replace(@RequestBody @Valid CargoDTO cargoDto, @PathVariable long id) {
 		Optional<Cargo> cargo = cargoService.findById(id);
+
+
+		if((String) cargoDto.getNome() == null || cargoDto.getNome().isEmpty()){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Campo nome é obrigatório!");
+		}
+
         if (!cargo.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cargo não localizado.");
         }
