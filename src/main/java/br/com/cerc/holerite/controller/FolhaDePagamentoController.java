@@ -2,6 +2,7 @@ package br.com.cerc.holerite.controller;
 
 import javax.validation.Valid;
 
+import br.com.cerc.holerite.persistence.model.FolhaDePagamento;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.cerc.holerite.persistence.dto.FolhaDePagamentoDTO;
 import br.com.cerc.holerite.service.FolhaDePagamentoService;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/v1/folha")
 public class FolhaDePagamentoController {
@@ -30,6 +33,16 @@ public class FolhaDePagamentoController {
 		this.folhaDePagamentoService = folhaDePagamentoService;
 	}
 
+	@ApiOperation(value = "Salva nova folha no sistema")
+	@ApiResponses(value = {
+			@ApiResponse(code = 201, message = "Retorna folha cadastrada")
+	})
+	@PostMapping
+	public ResponseEntity<?> save(@RequestBody @Valid FolhaDePagamentoDTO dto){
+		return new ResponseEntity<>(folhaDePagamentoService.save(dto), HttpStatus.CREATED);
+	}
+
+
 	@ApiOperation(value = "Busca Folha por Id")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Retorna folha existente"),
@@ -37,7 +50,11 @@ public class FolhaDePagamentoController {
 	})
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable long id) {
-		return new ResponseEntity<>(folhaDePagamentoService.findById(id),HttpStatus.OK);
+		Optional<FolhaDePagamento> folhaDePagamento = folhaDePagamentoService.findById(id);
+		if(!folhaDePagamento.isPresent()){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Folha de pagamento não localizada.");
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(folhaDePagamento.get());
 	}
 
 	@ApiOperation(value = "Busca lista de folhas no sistema")
@@ -58,15 +75,6 @@ public class FolhaDePagamentoController {
 	@GetMapping
 	public ResponseEntity<?> listAllByFunc(@RequestParam(value="funcId", defaultValue="") String id) {
 		return new ResponseEntity<>(folhaDePagamentoService.listAllByFunc(Long.parseLong(id)), HttpStatus.OK);
-	}
-
-	@ApiOperation(value = "Salva nova folha no sistema")
-	@ApiResponses(value = {
-			@ApiResponse(code = 201, message = "Retorna folha cadastrada")
-	})
-	@PostMapping
-	public ResponseEntity<?> save(@RequestBody @Valid FolhaDePagamentoDTO dto){
-		return new ResponseEntity<>(folhaDePagamentoService.save(dto), HttpStatus.CREATED);
 	}
 
 	@ApiOperation(value = "Deletar folha existente")

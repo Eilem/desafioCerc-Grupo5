@@ -28,8 +28,8 @@ public class FolhaDePagamentoService {
 		this.folhaDePagamentoRepository = folhaDePagamentoRepository;
 	}
 	
-	public FolhaDePagamento findById(Long id) {
-		return folhaDePagamentoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+	public Optional<FolhaDePagamento> findById(long id) {
+		return folhaDePagamentoRepository.findById(id);
 		
 	}
 	
@@ -45,7 +45,7 @@ public class FolhaDePagamentoService {
 	public FolhaDePagamento save(FolhaDePagamentoDTO dto) {
 		Optional<Funcionario> funcionario = funcionarioService.findById(dto.getFuncId());
 		
-		validarIntegridadeDosDados(dto, funcionario.get());
+//		validarIntegridadeDosDados(dto, funcionario.get());
 		
 		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionario.get());
 		return folhaDePagamentoRepository.save(folha);
@@ -60,7 +60,7 @@ public class FolhaDePagamentoService {
 		findById(id);
 		Optional<Funcionario> funcionario = funcionarioService.findById(dto.getFuncId());
 		
-		validarIntegridadeDosDados(dto, funcionario.get());
+		//validarIntegridadeDosDados(dto, funcionario.get());
 		
 		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionario.get());
 		
@@ -82,18 +82,18 @@ public class FolhaDePagamentoService {
 		return folha;
 	}
 	
-	private void validarIntegridadeDosDados(FolhaDePagamentoDTO dto, Funcionario funcionario) {
-		FolhaDePagamento folhaDB = folhaDePagamentoRepository
-				.findByFuncionarioAndMesReferencia(funcionario, dto.getAnoReferencia() + "-" + dto.getMesReferencia());
-		
-		if(folhaDB != null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-		}
-		
-		if(dto.getMesReferencia() > 12 || dto.getMesReferencia() < 1 || dto.getAnoReferencia() < 1) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-		}
-	}
+//	private void validarIntegridadeDosDados(FolhaDePagamentoDTO dto, Funcionario funcionario) {
+//		FolhaDePagamento folhaDB = folhaDePagamentoRepository
+//				.findByFuncionarioAndMesReferencia(funcionario, dto.getAnoReferencia() + "-" + dto.getMesReferencia());
+//
+//		if(folhaDB != null) {
+//			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//		}
+//
+//		if(dto.getMesReferencia() > 12 || dto.getMesReferencia() < 1 || dto.getAnoReferencia() < 1) {
+//			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//		}
+//	}
 	
 	private static double round(double value, int places) {
 	    if (places < 0) throw new IllegalArgumentException();
