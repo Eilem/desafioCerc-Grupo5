@@ -105,13 +105,19 @@ public class CargoController {
 		return ResponseEntity.status(HttpStatus.OK).body("Cargo Deletado com sucesso");
 	}
 
+
 	@ApiOperation(value = "Atualizar cargo existente")
 	@ApiResponses(value = {
-			@ApiResponse(code = 201, message = "Retorna cargo atualizada")
+			@ApiResponse(code = 200, message = "Retorna cargo atualizada")
 	})
 	@PutMapping("/{id}")
-	public ResponseEntity<?> replace(@RequestBody @Valid CargoDTO dto, @PathVariable long id) {
-		cargoService.replace(dto, id);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<?> replace(@RequestBody @Valid CargoDTO cargoDto, @PathVariable long id) {
+		Optional<Cargo> cargo = cargoService.findById(id);
+        if (!cargo.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cargo não localizado.");
+        }
+		//@todo RN -> validar se o novo nome do cargo já não pertence há outro cargo cadastrado com id diferente 
+		cargoService.replace(cargo.get() , cargoDto);
+		return ResponseEntity.status(HttpStatus.OK).body("Cargo editado com sucesso");
 	}
 }

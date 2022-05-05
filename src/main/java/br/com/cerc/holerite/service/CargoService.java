@@ -74,15 +74,13 @@ public class CargoService {
 		cargoRepository.delete(cargo);
 	}
 	
-	public void replace(CargoDTO dto, long id) {
-		findById(id);
-		
-		Cargo cargo = new Cargo();
-		
-		cargo.setId(id);
-		cargo.setNome(dto.getNome());
-		cargo.setPagamentoHora(dto.getPagamentoHora());
-		
-		cargoRepository.save(cargo);
+
+	public Cargo replace(Cargo cargo , CargoDTO cargoDto) {
+						
+		cargo.setNome( cargoDto.getNome() );
+		cargo.setPagamentoHora( cargoDto.getPagamentoHora() );
+
+		return cargoRepository.save(cargo);
 	}
+
 }
