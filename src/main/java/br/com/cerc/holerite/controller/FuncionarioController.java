@@ -102,9 +102,15 @@ public class FuncionarioController {
 			@ApiResponse(code = 400, message = "Id de usuário invalido")
 	})
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable long id) {
+	public ResponseEntity<Object> delete(@PathVariable long id) {
+		Optional<Funcionario> funcionario = funcionarioService.findById(id);
+
+		if (!funcionario.isPresent()){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Funcionário não localizado.");
+		}
+
 		funcionarioService.delete(id);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return ResponseEntity.status(HttpStatus.OK).body("Funcionário Deletado com sucesso!");
 	}
 
 	@ApiOperation(value = "Atualizar usuario existente")
