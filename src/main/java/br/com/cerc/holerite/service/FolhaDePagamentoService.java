@@ -38,16 +38,16 @@ public class FolhaDePagamentoService {
 	}
 	
 	public List<FolhaDePagamento> listAllByFunc(long id) {
-		Funcionario funcionario = funcionarioService.findById(id);
-		return folhaDePagamentoRepository.findAllByFuncionario(funcionario);
+		Optional<Funcionario> funcionario = funcionarioService.findById(id);
+		return folhaDePagamentoRepository.findAllByFuncionario(funcionario.get());
 	}
 	
 	public FolhaDePagamento save(FolhaDePagamentoDTO dto) {
-		Funcionario funcionario = funcionarioService.findById(dto.getFuncId());
+		Optional<Funcionario> funcionario = funcionarioService.findById(dto.getFuncId());
 		
-		validarIntegridadeDosDados(dto, funcionario);
+		validarIntegridadeDosDados(dto, funcionario.get());
 		
-		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionario);
+		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionario.get());
 		return folhaDePagamentoRepository.save(folha);
 	}
 	
@@ -58,11 +58,11 @@ public class FolhaDePagamentoService {
 	
 	public void replace(FolhaDePagamentoDTO dto, long id) {
 		findById(id);
-		Funcionario funcionario = funcionarioService.findById(dto.getFuncId());
+		Optional<Funcionario> funcionario = funcionarioService.findById(dto.getFuncId());
 		
-		validarIntegridadeDosDados(dto, funcionario);
+		validarIntegridadeDosDados(dto, funcionario.get());
 		
-		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionario);
+		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionario.get());
 		
 		folha.setId(id);
 		folhaDePagamentoRepository.save(folha);
