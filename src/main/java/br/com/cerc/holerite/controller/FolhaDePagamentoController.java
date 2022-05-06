@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.cerc.holerite.persistence.dto.FolhaDePagamentoDTO;
 import br.com.cerc.holerite.service.FolhaDePagamentoService;
 
+import java.util.Calendar;
 import java.util.Optional;
 
 @RestController
@@ -43,7 +44,11 @@ public class FolhaDePagamentoController {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Não existe funcionário para esta folha de pagamento");
 		}
 
-		if (folhaDePagamentoDto.get)
+		if (folhaDePagamentoDto.getHorasTrabalhadas() <= 0){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existe horas trabalhadas!");
+		}
+
+
 		return new ResponseEntity<>(folhaDePagamentoService.save(dto), HttpStatus.CREATED);
 	}
 
