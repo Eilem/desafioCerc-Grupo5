@@ -38,7 +38,12 @@ public class FolhaDePagamentoController {
 			@ApiResponse(code = 201, message = "Retorna folha cadastrada")
 	})
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody @Valid FolhaDePagamentoDTO dto){
+	public ResponseEntity<?> save(@RequestBody @Valid FolhaDePagamentoDTO folhaDePagamentoDto){
+		if (folhaDePagamentoDto.getFuncId() == 0 || folhaDePagamentoDto.getFuncId() < 1){
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Não existe funcionário para esta folha de pagamento");
+		}
+
+		if (folhaDePagamentoDto.get)
 		return new ResponseEntity<>(folhaDePagamentoService.save(dto), HttpStatus.CREATED);
 	}
 

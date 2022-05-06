@@ -146,13 +146,15 @@ public class FuncionarioController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Funcionário não localizado.");
 		}
 
-		//busco no banco se já existe cargo com o nome recebido
-		Funcionario funcionarioEncontrado = funcionarioService.getFuncionarioByCPF(funcionarioDto.getCpf());
-		if(funcionarioEncontrado != null){
-			return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe um funcionário com este CPF!");
-		} else {
-			funcionarioService.replace(funcionario.get() ,funcionarioDto);
-		}
+		//Validar regra de edição na busca de CPF do usuário de id diferente
+//		Funcionario funcionarioEncontrado = funcionarioService.getFuncionarioByCPF(funcionarioDto.getCpf());
+//		if(funcionarioEncontrado != null){
+//			return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe um funcionário com este CPF!");
+//		} else {
+//
+//		}
+
+		funcionarioService.replace(funcionario.get() ,funcionarioDto);
 
 		return  ResponseEntity.status(HttpStatus.OK).body("Funcionário editado com sucesso!");
 	}
