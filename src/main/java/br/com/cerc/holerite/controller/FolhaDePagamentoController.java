@@ -48,8 +48,16 @@ public class FolhaDePagamentoController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existe horas trabalhadas!");
 		}
 
+		if ((folhaDePagamentoDto.getMesReferencia() > 12)|| (folhaDePagamentoDto.getMesReferencia() < 1)){
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Necessita colocar um valor de mês entre 1 e 12");
+		}
 
-		return new ResponseEntity<>(folhaDePagamentoService.save(dto), HttpStatus.CREATED);
+		if (folhaDePagamentoDto.getAnoReferencia() < 2000){
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Necessita colocar valores maiores que 2000");
+		}
+		//fazer validação para verificar se já existe uma folha de pagamento dentro do funcionário especifico orientado por mes e ano
+
+		return new ResponseEntity<>(folhaDePagamentoService.save(folhaDePagamentoDto), HttpStatus.CREATED);
 	}
 
 

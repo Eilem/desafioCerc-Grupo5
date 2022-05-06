@@ -22,7 +22,7 @@ import br.com.cerc.holerite.persistence.repository.FolhaDePagamentoRepository;
 public class FolhaDePagamentoService {
 	private final FuncionarioService funcionarioService;
 	private final FolhaDePagamentoRepository folhaDePagamentoRepository;
-	
+
 	public FolhaDePagamentoService(FuncionarioService funcionarioService, FolhaDePagamentoRepository folhaDePagamentoRepository) {
 		this.funcionarioService = funcionarioService;
 		this.folhaDePagamentoRepository = folhaDePagamentoRepository;
@@ -73,11 +73,11 @@ public class FolhaDePagamentoService {
 		double inss = Descontos.calcularINSS(salarioBruto);
 		double irrf = Descontos.calcularIRRF(salarioBruto, inss);
 		double fgts = Adicionais.calcularFGTS(salarioBruto);
-		String dataEmissao  = LocalDate.now().toString();
-		String mesRefencia = dto.getAnoReferencia() + "-" + dto.getMesReferencia();
+		int mesReferencia = dto.getMesReferencia();
+		int anoReferencia = dto.getAnoReferencia();
 		double salarioLiquido = salarioBruto - inss - irrf;
 			
-		FolhaDePagamento folha = new FolhaDePagamento(funcionario, round(inss, 2), round(irrf, 2), round(fgts, 2), dataEmissao, mesRefencia, round(salarioBruto, 2), round(salarioLiquido, 2));
+		FolhaDePagamento folha = new FolhaDePagamento(funcionario, round(inss, 2), round(irrf, 2), round(fgts, 2), mesReferencia, anoReferencia, round(salarioBruto, 2), round(salarioLiquido, 2));
 	
 		return folha;
 	}

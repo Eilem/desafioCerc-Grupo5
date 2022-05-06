@@ -17,6 +17,16 @@ public class FolhaDePagamento {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
+	@ManyToOne
+	@JoinColumn(name = "funcionario_id")
+	private Funcionario funcionario;
+
+	@Column(nullable = false)
+	private int mesReferencia;
+
+	@Column(nullable = false)
+	private int anoReferencia;
+
 	@Column(nullable = false)
 	private double INSS;
 
@@ -27,33 +37,27 @@ public class FolhaDePagamento {
 	private double FGTS;
 
 	@Column(nullable = false)
-	private String dataEmissao;
-
-	@Column(nullable = false)
-	private String mesReferencia;
-
-	@Column(nullable = false)
 	private double salarioBruto;
 
 	@Column(nullable = false)
 	private double salarioLiquido;
 
-	@ManyToOne
-	@JoinColumn(name = "funcionario_id")
-	private Funcionario funcionario;
+	@Column(nullable = false)
+	private double horasTrabalhadas;
 	
 	public FolhaDePagamento() {
 		
 	}
 	
-	public FolhaDePagamento(Funcionario funcionario, double iNSS, double iRRF, double fGTS, String dataEmissao,
-			String mesReferencia, double salarioBruto, double salarioLiquido) {
+	public FolhaDePagamento(Funcionario funcionario, double iNSS, double iRRF, double fGTS,
+							int mesReferencia, int anoReferencia, double salarioBruto, double salarioLiquido) {
+
 		this.funcionario = funcionario;
 		this.INSS = iNSS;
 		this.IRRF = iRRF;
 		this.FGTS = fGTS;
-		this.dataEmissao = dataEmissao;
 		this.mesReferencia = mesReferencia;
+		this.anoReferencia = anoReferencia;
 		this.salarioBruto = salarioBruto;
 		this.salarioLiquido = salarioLiquido;
 	}
@@ -64,54 +68,68 @@ public class FolhaDePagamento {
 	public void setId(long id) {
 		this.id = id;
 	}
+
 	public Funcionario getFuncionario() {
 		return funcionario;
 	}
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
+
 	public double getINSS() {
 		return INSS;
 	}
 	public void setINSS(double iNSS) {
 		INSS = iNSS;
 	}
+
 	public double getIRRF() {
 		return IRRF;
 	}
 	public void setIRRF(double iRRF) {
 		IRRF = iRRF;
 	}
+
 	public double getFGTS() {
 		return FGTS;
 	}
 	public void setFGTS(double fGTS) {
 		FGTS = fGTS;
 	}
-	public String getDataEmissao() {
-		return dataEmissao;
-	}
-	public void setDataEmissao(String dataEmissao) {
-		this.dataEmissao = dataEmissao;
-	}
-	public String getMesReferencia() {
+
+	public int getMesReferencia() {
 		return mesReferencia;
 	}
-	public void setMesReferencia(String mesReferencia) {
+	public void setMesReferencia(int mesReferencia) {
 		this.mesReferencia = mesReferencia;
 	}
+
+	public int getAnoReferencia() {
+		return anoReferencia;
+	}
+	public void setAnoReferencia(int ano) {
+		this.anoReferencia = anoReferencia;
+	}
+
 	public double getSalarioBruto() {
 		return salarioBruto;
 	}
 	public void setSalarioBruto(double salarioBruto) {
 		this.salarioBruto = salarioBruto;
 	}
+
 	public double getSalarioLiquido() {
 		return salarioLiquido;
 	}
 	public void setSalarioLiquido(double salarioLiquido) {
 		this.salarioLiquido = salarioLiquido;
 	}
-	
-	
+
+	public double getHorasTrabalhadas() {
+		return horasTrabalhadas;
+	}
+
+	public void setHorasTrabalhadas(double horasTrabalhadas) {
+		this.horasTrabalhadas = horasTrabalhadas;
+	}
 }

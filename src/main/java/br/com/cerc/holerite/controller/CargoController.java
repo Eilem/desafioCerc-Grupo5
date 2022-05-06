@@ -43,7 +43,7 @@ public class CargoController {
 	public ResponseEntity<Object> save(@RequestBody @Valid CargoDTO cargo) {
 
 		//nome vazio
-		if (cargo.getNome() == null || cargo.getNome().isEmpty()) {
+		if (cargo.getNome().replaceAll(" ","") == null || cargo.getNome().replaceAll(" ","").isEmpty()) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo nome é obrigatório!");
 		}
 
@@ -114,8 +114,7 @@ public class CargoController {
 	public ResponseEntity<?> replace(@RequestBody @Valid CargoDTO cargoDto, @PathVariable long id) {
 		Optional<Cargo> cargo = cargoService.findById(id);
 
-
-		if( cargoDto.getNome() == null || cargoDto.getNome().isEmpty()){
+		if( cargoDto.getNome().replaceAll(" ","") == null || cargoDto.getNome().replaceAll(" ","").isEmpty()){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Campo nome é obrigatório!");
 		}
 
