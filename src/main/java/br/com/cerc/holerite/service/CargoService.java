@@ -44,13 +44,7 @@ public class CargoService {
 	}
 	
 	public Cargo save(CargoDTO dto) {
-		//@todo ver pra retornar por id do que foi inserido
-		Cargo cargoDB = cargoRepository.findByNome(dto.getNome());
-		
-		if(cargoDB != null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-		}
-		
+//
 		Cargo cargo  = new Cargo(dto.getNome(), dto.getPagamentoHora());
 		return cargoRepository.save(cargo);
 	}
@@ -61,7 +55,7 @@ public class CargoService {
 	}
 
 	@Transactional
-	public void delete( Cargo cargo) 
+	public void delete(Cargo cargo)
 	{
 		List<Funcionario> funcionarios = funcionarioRepository.findAllByCargo(cargo);
 		

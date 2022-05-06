@@ -44,29 +44,25 @@ public class FolhaDePagamentoService {
 	
 	public FolhaDePagamento save(FolhaDePagamentoDTO dto) {
 		Optional<Funcionario> funcionario = funcionarioService.findById(dto.getFuncId());
-		
-//		validarIntegridadeDosDados(dto, funcionario.get());
-		
+
 		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionario.get());
 		return folhaDePagamentoRepository.save(folha);
 	}
 	
-	public void delete(long id) {
-		folhaDePagamentoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
-		folhaDePagamentoRepository.deleteById(id);
-	}
+//	public void delete(long id) {
+//		folhaDePagamentoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+//		folhaDePagamentoRepository.deleteById(id);
+//	}
 	
-	public void replace(FolhaDePagamentoDTO dto, long id) {
-		findById(id);
-		Optional<Funcionario> funcionario = funcionarioService.findById(dto.getFuncId());
-		
-		//validarIntegridadeDosDados(dto, funcionario.get());
-		
-		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionario.get());
-		
-		folha.setId(id);
-		folhaDePagamentoRepository.save(folha);
-	}
+//	public void replace(FolhaDePagamentoDTO dto, long id) {
+//		findById(id);
+//		Optional<Funcionario> funcionario = funcionarioService.findById(dto.getFuncId());
+//
+//		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionario.get());
+//
+//		folha.setId(id);
+//		folhaDePagamentoRepository.save(folha);
+//	}
 	
 	private FolhaDePagamento criarFolhaDePagamento(FolhaDePagamentoDTO dto, Funcionario funcionario) {
 		double salarioBruto = Adicionais.calcularSalarioBruto(funcionario.getCargo().getPagamentoHora(), dto.getHorasTrabalhadas());
