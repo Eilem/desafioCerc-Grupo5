@@ -52,6 +52,13 @@ localhost:8080/doc/api
 ____
 
 # Requisitos Funcionais
+
+- Manter cargos
+- Manter funcionarios
+- Cadastrar folha de pagamento para funcionario
+- Listar folhas de pagamento
+- Listar folhas de pagamento por funcionário
+- Visualizar detalhes da folha de pagamento
 ____
 
 # Requisitos Postergados
