@@ -37,12 +37,7 @@ public class FuncionarioService {
 	}
 	
 	public Funcionario save(FuncionarioDTO dto) {
-		Funcionario funcionarioDB = funcionarioRepository.findByCpf(dto.getCpf());
 		Optional<Cargo> cargo = cargoRepository.findById(dto.getCargoId());
-		
-//		if(funcionarioDB != null || !cargo.isPresent()) {
-//			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//		}
 
 		Funcionario funcionario  = new Funcionario(dto.getNome(), dto.getCpf().replaceAll(" ",""), cargo.get());
 		return funcionarioRepository.save(funcionario);

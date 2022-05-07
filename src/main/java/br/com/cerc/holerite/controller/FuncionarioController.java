@@ -23,6 +23,7 @@ import br.com.cerc.holerite.persistence.model.Funcionario;
 import br.com.cerc.holerite.service.FuncionarioService;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/v1/funcionarios")
@@ -43,6 +44,11 @@ public class FuncionarioController {
 
 		if(funcionarioDto.getCpf() == null || funcionarioDto.getCpf().isEmpty()){
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo CPF é obrigatório!");
+		}
+
+		//Verifica se existe apenas números no CPF
+		if (!Pattern.matches("[0-9]+", funcionarioDto.getCpf())){
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("CPF precisa conter apenas caracteres númericos");
 		}
 
 		//Criação de validação para verificar se o CPF possui 11 caracteres
@@ -86,9 +92,9 @@ public class FuncionarioController {
 		return ResponseEntity.status(HttpStatus.OK).body(funcionario.get());
 	}
 
-	@ApiOperation(value = "Busca lista de usuarios no sistema")
+	@ApiOperation(value = "Busca lista de usuários no sistema")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Retorna com Usuarios"),
+			@ApiResponse(code = 200, message = "Retorna com Usuários"),
 			@ApiResponse(code = 204, message = "Retorno sem Usuario")
 	})
 	@GetMapping
@@ -99,7 +105,7 @@ public class FuncionarioController {
 	@ApiOperation(value = "Deletar usuário existente")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Usuário deletado!"),
-			@ApiResponse(code = 400, message = "Id de usuário invalido")
+			@ApiResponse(code = 400, message = "Id de usuário inválido")
 	})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> delete(@PathVariable long id) {
@@ -116,7 +122,7 @@ public class FuncionarioController {
 	@ApiOperation(value = "Atualizar usuario existente")
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "Retorna usuario atualizado"),
-			@ApiResponse(code = 400, message = "Id de usuario invalido")
+			@ApiResponse(code = 400, message = "Id de usuario inválido")
 	})
 	@PutMapping("/{id}")
 	public ResponseEntity<?> replace(@RequestBody @Valid FuncionarioDTO funcionarioDto, @PathVariable long id) {
@@ -124,6 +130,10 @@ public class FuncionarioController {
 
 		if(funcionarioDto.getCpf() == null || funcionarioDto.getCpf().isEmpty()){
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo CPF é obrigatório!");
+		}
+
+		if (!Pattern.matches("[0-9]+", funcionarioDto.getCpf())){
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("CPF precisa conter apenas caracteres númericos");
 		}
 
 		//Criação de validação para verificar se o CPF possui 11 caracteres
