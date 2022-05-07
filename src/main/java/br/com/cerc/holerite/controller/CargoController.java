@@ -120,6 +120,10 @@ public class CargoController {
         if (!cargo.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cargo não localizado.");
         }
+
+		if (cargoDto.getPagamentoHora() <= 0){
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Valores de Horas de Pagamento não podem ser menores ou iguais a zero");
+		}
 		//@todo RN -> validar se o novo nome do cargo já não pertence há outro cargo cadastrado com id diferente 
 		cargoService.replace(cargo.get() , cargoDto);
 		return ResponseEntity.status(HttpStatus.OK).body("Cargo editado com sucesso!");
