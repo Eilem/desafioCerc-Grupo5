@@ -23,6 +23,7 @@ import br.com.cerc.holerite.persistence.dto.FolhaDePagamentoDTO;
 import br.com.cerc.holerite.service.FolhaDePagamentoService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -57,15 +58,20 @@ public class FolhaDePagamentoController {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Necessita colocar valores maiores que 2000");
 		}
 
-		//Verifica cada elemento da lista de pagamento de um funcionário para validar se já existe cadastrado um ano e mês repetido
+		try {
+			//Verifica cada elemento da lista de pagamento de um funcionário para validar se já existe cadastrado um ano e mês repetido
 		List<FolhaDePagamento> folhaDePagamentoList = folhaDePagamentoService.listAllByFunc(folhaDePagamentoDto.getFuncId());
 
-		for (FolhaDePagamento folhaDePagamento : folhaDePagamentoList) {
+			for (FolhaDePagamento folhaDePagamento : folhaDePagamentoList) {
 
-			if (folhaDePagamento.getMesReferencia() == folhaDePagamentoDto.getMesReferencia() && folhaDePagamento.getAnoReferencia() == folhaDePagamentoDto.getAnoReferencia()){
-				return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe uma folha de pagamento com este mês e ano cadastrada");
+				if (folhaDePagamento.getMesReferencia() == folhaDePagamentoDto.getMesReferencia() && folhaDePagamento.getAnoReferencia() == folhaDePagamentoDto.getAnoReferencia()) {
+					return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe uma folha de pagamento com este mês e ano cadastrada");
+				}
+
 			}
-
+		}catch (NoSuchElementException e){
+			//caso caia nesta exceção após criar a lista e não houver funcionários vai retornar que não existe
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existe este funcionário!");
 		}
 		return new ResponseEntity<>(folhaDePagamentoService.save(folhaDePagamentoDto), HttpStatus.CREATED);
 	}

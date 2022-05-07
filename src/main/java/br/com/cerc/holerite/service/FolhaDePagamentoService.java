@@ -1,6 +1,5 @@
 package br.com.cerc.holerite.service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.cerc.holerite.persistence.dto.FolhaDePagamentoDTO;
@@ -39,6 +39,7 @@ public class FolhaDePagamentoService {
 	
 	public List<FolhaDePagamento> listAllByFunc(long id) {
 		Optional<Funcionario> funcionario = funcionarioService.findById(id);
+
 		return folhaDePagamentoRepository.findAllByFuncionario(funcionario.get());
 	}
 
@@ -48,8 +49,6 @@ public class FolhaDePagamentoService {
 		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionario.get());
 		return folhaDePagamentoRepository.save(folha);
 	}
-
-
 	
 //	public void delete(long id) {
 //		folhaDePagamentoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
@@ -79,19 +78,7 @@ public class FolhaDePagamentoService {
 	
 		return folha;
 	}
-	
-//	private void validarIntegridadeDosDados(FolhaDePagamentoDTO dto, Funcionario funcionario) {
-//		FolhaDePagamento folhaDB = folhaDePagamentoRepository
-//				.findByFuncionarioAndMesReferencia(funcionario, dto.getAnoReferencia() + "-" + dto.getMesReferencia());
-//
-//		if(folhaDB != null) {
-//			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//		}
-//
-//		if(dto.getMesReferencia() > 12 || dto.getMesReferencia() < 1 || dto.getAnoReferencia() < 1) {
-//			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//		}
-//	}
+
 	
 	private static double round(double value, int places) {
 	    if (places < 0) throw new IllegalArgumentException();
