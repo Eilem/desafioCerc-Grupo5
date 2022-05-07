@@ -20,9 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cerc.holerite.persistence.dto.CargoDTO;
 import br.com.cerc.holerite.service.CargoService;
-import org.springframework.web.server.ResponseStatusException;
-
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 import java.util.Optional;
 
@@ -113,6 +110,8 @@ public class CargoController {
 	@PutMapping("/{id}")
 	public ResponseEntity<?> replace(@RequestBody @Valid CargoDTO cargoDto, @PathVariable long id) {
 		Optional<Cargo> cargo = cargoService.findById(id);
+
+		//mostrar erro  da hora de pagamento do cargo quando for colocado string
 
 		if( cargoDto.getNome().replaceAll(" ","") == null || cargoDto.getNome().replaceAll(" ","").isEmpty()){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Campo nome é obrigatório!");

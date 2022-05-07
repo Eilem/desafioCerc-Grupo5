@@ -2,9 +2,11 @@ package br.com.cerc.holerite.controller;
 
 import javax.validation.Valid;
 
+import br.com.cerc.holerite.persistence.repository.FuncionarioRepository;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ import br.com.cerc.holerite.persistence.dto.FuncionarioDTO;
 import br.com.cerc.holerite.persistence.model.Funcionario;
 import br.com.cerc.holerite.service.FuncionarioService;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -29,9 +32,12 @@ import java.util.regex.Pattern;
 @RequestMapping("/api/v1/funcionarios")
 public class FuncionarioController {
 	private final FuncionarioService funcionarioService;
+	private final FuncionarioRepository funcionarioRepository;
 	
-	public FuncionarioController(FuncionarioService funcionarioService) {
+	public FuncionarioController(FuncionarioService funcionarioService, FuncionarioRepository funcionarioRepository) {
+
 		this.funcionarioService = funcionarioService;
+		this.funcionarioRepository = funcionarioRepository;
 	}
 
 	@ApiOperation(value = "Salva novo usuario no sistema")
@@ -131,7 +137,7 @@ public class FuncionarioController {
 		if(funcionarioDto.getCpf() == null || funcionarioDto.getCpf().isEmpty()){
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo CPF é obrigatório!");
 		}
-
+		//Garante que o cpf vai ser numérico
 		if (!Pattern.matches("[0-9]+", funcionarioDto.getCpf())){
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("CPF precisa conter apenas caracteres númericos");
 		}
@@ -155,6 +161,16 @@ public class FuncionarioController {
 		if(!funcionario.isPresent()){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Funcionário não localizado.");
 		}
+
+		List<Funcionario> funcionarioList=funcionarioRepository.findAllByCpf(funcionarioDto.getCpf());
+
+		for (Funcionario funcionarioDB : funcionarioList) {
+			if (funcionarioDB.getId() != id){
+				return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe funcionário com este CPF cadastrado");
+			}
+		}
+
+		//criar lista de funcionários para validar se algum usuário já tem o mesmo cpf lá dentro.
 
 		//Validar regra de edição na busca de CPF do usuário de id diferente
 //		Funcionario funcionarioEncontrado = funcionarioService.getFuncionarioByCPF(funcionarioDto.getCpf());
