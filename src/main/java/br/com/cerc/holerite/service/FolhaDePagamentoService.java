@@ -41,13 +41,15 @@ public class FolhaDePagamentoService {
 		Optional<Funcionario> funcionario = funcionarioService.findById(id);
 		return folhaDePagamentoRepository.findAllByFuncionario(funcionario.get());
 	}
-	
+
 	public FolhaDePagamento save(FolhaDePagamentoDTO dto) {
 		Optional<Funcionario> funcionario = funcionarioService.findById(dto.getFuncId());
 
 		FolhaDePagamento folha = criarFolhaDePagamento(dto, funcionario.get());
 		return folhaDePagamentoRepository.save(folha);
 	}
+
+
 	
 //	public void delete(long id) {
 //		folhaDePagamentoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.cerc.holerite.persistence.dto.FolhaDePagamentoDTO;
 import br.com.cerc.holerite.service.FolhaDePagamentoService;
 
-import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -40,6 +40,7 @@ public class FolhaDePagamentoController {
 	})
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody @Valid FolhaDePagamentoDTO folhaDePagamentoDto){
+
 		if (folhaDePagamentoDto.getFuncId() == 0 || folhaDePagamentoDto.getFuncId() < 1){
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Não existe funcionário para esta folha de pagamento");
 		}
@@ -55,8 +56,17 @@ public class FolhaDePagamentoController {
 		if (folhaDePagamentoDto.getAnoReferencia() < 2000){
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Necessita colocar valores maiores que 2000");
 		}
-		//fazer validação para verificar se já existe uma folha de pagamento dentro do funcionário especifico orientado por mes e ano
 
+		//Verifica cada elemento da lista de pagamento de um funcionário para validar se já existe cadastrado um ano e mês repetido
+		List<FolhaDePagamento> folhaDePagamentoList = folhaDePagamentoService.listAllByFunc(folhaDePagamentoDto.getFuncId());
+
+		for (FolhaDePagamento folhaDePagamento : folhaDePagamentoList) {
+
+			if (folhaDePagamento.getMesReferencia() == folhaDePagamentoDto.getMesReferencia() && folhaDePagamento.getAnoReferencia() == folhaDePagamentoDto.getAnoReferencia()){
+				return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe uma folha de pagamento com este mês e ano cadastrada");
+			}
+
+		}
 		return new ResponseEntity<>(folhaDePagamentoService.save(folhaDePagamentoDto), HttpStatus.CREATED);
 	}
 
