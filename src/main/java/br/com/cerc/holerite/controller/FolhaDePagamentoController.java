@@ -104,8 +104,8 @@ public class FolhaDePagamentoController {
 			@ApiResponse(code = 200, message = "Retorna folha existente"),
 			@ApiResponse(code = 204, message = "Retorno inexistente")
 	})
-	@GetMapping
-	public ResponseEntity<?> listAllByFunc(@RequestParam(value="funcId", defaultValue="") String id) {
-		return new ResponseEntity<>(folhaDePagamentoService.listAllByFunc(Long.parseLong(id)), HttpStatus.OK);
+	@GetMapping("/todas/{id}")
+	public ResponseEntity<?> listAllByFunc(@PathVariable long id) {
+		return new ResponseEntity<>(folhaDePagamentoService.listAllByFunc(id), HttpStatus.OK);
 	}
 }
