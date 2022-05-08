@@ -58,7 +58,7 @@ public class CargoController {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe um cargo com este nome!");
 		
 		} else {
-			return new ResponseEntity<>(cargoService.save(cargo), HttpStatus.OK);
+			return new ResponseEntity<>(cargoService.save(cargo), HttpStatus.CREATED);
 		}
 	}
 
@@ -90,7 +90,7 @@ public class CargoController {
 	@ApiOperation(value = "Deletar cargo existente")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Caso deletada!"),
-			@ApiResponse(code = 400, message = "Id de cargo invalido")
+			@ApiResponse(code = 400, message = "Id de cargo inválido")
 	})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> delete(@PathVariable long id){

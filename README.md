@@ -62,3 +62,6 @@ ____
 ____
 
 # Requisitos Postergados
+- Front End
+- Validação do Token
+- Teste unitário

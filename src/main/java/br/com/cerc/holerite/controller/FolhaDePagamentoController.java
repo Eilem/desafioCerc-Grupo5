@@ -9,11 +9,9 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -110,29 +108,4 @@ public class FolhaDePagamentoController {
 	public ResponseEntity<?> listAllByFunc(@RequestParam(value="funcId", defaultValue="") String id) {
 		return new ResponseEntity<>(folhaDePagamentoService.listAllByFunc(Long.parseLong(id)), HttpStatus.OK);
 	}
-
-//	@ApiOperation(value = "Deletar folha existente")
-//	@ApiResponses(value = {
-//			@ApiResponse(code = 200, message = "Caso deletado!"),
-//			@ApiResponse(code = 400, message = "Id de folha invalido")
-//	})
-//	@DeleteMapping("/{id}")
-//	public ResponseEntity<Object> delete(@PathVariable long id) {
-//		Optional<FolhaDePagamento> folhaDePagamento = folhaDePagamentoService.findById(id);
-//		if (!folhaDePagamento.isPresent()){
-//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Folha de pagamento não existe!");
-//		}
-//		folhaDePagamentoService.delete(id);
-//		return ResponseEntity.status(HttpStatus.OK).body("Folha de pagamento deletada com sucesso!");
-//	}
-//
-//	@ApiOperation(value = "Atualizar folha existente")
-//	@ApiResponses(value = {
-//			@ApiResponse(code = 201, message = "Retorna folha atualizado")
-//	})
-//	@PutMapping("/{id}")
-//	public ResponseEntity<?> replace(@RequestBody @Valid FolhaDePagamentoDTO dto, @PathVariable long id) {
-//		folhaDePagamentoService.replace(dto, id);
-//		return new ResponseEntity<>(HttpStatus.OK);
-//	}
 }
