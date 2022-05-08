@@ -49,7 +49,7 @@ public class CargoController {
 		 */
 		if (cargo.getPagamentoHora() <= 0 ) {
 
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Valores de Horas de Pagamento não podem ser menores ou iguais a zero");
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Valor do campo Pagamento por Hora não pode ser zero ou inferior(negativo)");
 		}
 
 		//busco no banco se já existe cargo com o nome recebido
@@ -122,7 +122,7 @@ public class CargoController {
         }
 
 		if (cargoDto.getPagamentoHora() <= 0){
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Valores de Horas de Pagamento não podem ser menores ou iguais a zero");
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Valor do campo Pagamento por Hora não pode ser zero ou inferior(negativo)");
 		}
 		//@todo RN -> validar se o novo nome do cargo já não pertence há outro cargo cadastrado com id diferente 
 		cargoService.replace(cargo.get() , cargoDto);
