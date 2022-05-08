@@ -3,6 +3,7 @@ package br.com.cerc.holerite.controller;
 import javax.validation.Valid;
 
 import br.com.cerc.holerite.persistence.model.FolhaDePagamento;
+import br.com.cerc.holerite.service.FuncionarioService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cerc.holerite.persistence.dto.FolhaDePagamentoDTO;
@@ -28,9 +28,11 @@ import java.util.Optional;
 @RequestMapping("/api/v1/folha")
 public class FolhaDePagamentoController {
 	private final FolhaDePagamentoService folhaDePagamentoService;
+	private final FuncionarioService funcionarioService;
 	
-	public FolhaDePagamentoController(FolhaDePagamentoService folhaDePagamentoService) {
+	public FolhaDePagamentoController(FolhaDePagamentoService folhaDePagamentoService, FuncionarioService funcionarioService) {
 		this.folhaDePagamentoService = folhaDePagamentoService;
+		this.funcionarioService = funcionarioService;
 	}
 
 	@ApiOperation(value = "Salva nova folha no sistema")
@@ -83,7 +85,7 @@ public class FolhaDePagamentoController {
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable long id) {
 		Optional<FolhaDePagamento> folhaDePagamento = folhaDePagamentoService.findById(id);
-		if(!folhaDePagamento.isPresent()){
+		if(folhaDePagamento.isEmpty()){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Folha de pagamento não localizada.");
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(folhaDePagamento.get());
@@ -106,6 +108,10 @@ public class FolhaDePagamentoController {
 	})
 	@GetMapping("/todas/{id}")
 	public ResponseEntity<?> listAllByFunc(@PathVariable long id) {
+
+		if (funcionarioService.findById(id).isEmpty()){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Funcionário não cadastrado");
+		}
 		return new ResponseEntity<>(folhaDePagamentoService.listAllByFunc(id), HttpStatus.OK);
 	}
 }
