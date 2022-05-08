@@ -53,7 +53,7 @@ public class FolhaDePagamentoController {
 		}
 
 		if (folhaDePagamentoDto.getAnoReferencia() < 2000){
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Necessita colocar valores maiores que 2000");
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Necessita colocar valores maiores que 2000 no campo Ano Referencia");
 		}
 
 		try {
