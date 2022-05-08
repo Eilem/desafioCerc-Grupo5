@@ -2,6 +2,8 @@ package br.com.cerc.holerite.controller;
 
 import javax.validation.Valid;
 
+import br.com.cerc.holerite.persistence.model.Cargo;
+import br.com.cerc.holerite.persistence.repository.CargoRepository;
 import br.com.cerc.holerite.persistence.repository.FuncionarioRepository;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -33,11 +35,13 @@ import java.util.regex.Pattern;
 public class FuncionarioController {
 	private final FuncionarioService funcionarioService;
 	private final FuncionarioRepository funcionarioRepository;
+	private final CargoRepository cargoRepository;
 	
-	public FuncionarioController(FuncionarioService funcionarioService, FuncionarioRepository funcionarioRepository) {
+	public FuncionarioController(FuncionarioService funcionarioService, FuncionarioRepository funcionarioRepository, CargoRepository cargoRepository) {
 
 		this.funcionarioService = funcionarioService;
 		this.funcionarioRepository = funcionarioRepository;
+		this.cargoRepository = cargoRepository;
 	}
 
 	@ApiOperation(value = "Salva novo usuario no sistema")
@@ -73,6 +77,13 @@ public class FuncionarioController {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo id cargo não pode ser vazio ou menor igual a zero");
 		}
 
+		List<Cargo> cargoList= cargoRepository.findAll();
+
+		for (Cargo cargo: cargoList) {
+			if (cargo.getId() != funcionarioDto.getCargoId()){
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existe este cargo no banco de dados");
+			}
+		}
 		//busco no banco se já existe funcionario com o cpf recebido
 		Funcionario funcionarioEncontrado = funcionarioService.getFuncionarioByCPF(funcionarioDto.getCpf());
 		if(funcionarioEncontrado != null){
