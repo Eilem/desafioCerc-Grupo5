@@ -47,9 +47,9 @@ public class CargoController {
 		/**
 		 * @todo tratar quando receber espaço vazio " "
 		 */
-		if (cargo.getPagamentoHora() == 0 ||  cargo.getPagamentoHora()  < 1 ) {
+		if (cargo.getPagamentoHora() <= 0 ) {
 
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo pagamentoHora é obrigatório!");
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Valores de Horas de Pagamento não podem ser menores ou iguais a zero");
 		}
 
 		//busco no banco se já existe cargo com o nome recebido
