@@ -50,7 +50,7 @@ public class FolhaDePagamento {
 	}
 	
 	public FolhaDePagamento(Funcionario funcionario, double iNSS, double iRRF, double fGTS,
-							int mesReferencia, int anoReferencia, double salarioBruto, double salarioLiquido) {
+							int mesReferencia, int anoReferencia, double salarioBruto, double salarioLiquido, double horasTrabalhadas) {
 
 		this.funcionario = funcionario;
 		this.INSS = iNSS;
@@ -60,6 +60,7 @@ public class FolhaDePagamento {
 		this.anoReferencia = anoReferencia;
 		this.salarioBruto = salarioBruto;
 		this.salarioLiquido = salarioLiquido;
+		this.horasTrabalhadas = horasTrabalhadas;
 	}
 	
 	public long getId() {

@@ -5,14 +5,9 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.server.ResponseStatusException;
-
 import br.com.cerc.holerite.persistence.dto.FolhaDePagamentoDTO;
 import br.com.cerc.holerite.persistence.model.Adicionais;
-import br.com.cerc.holerite.persistence.model.Cargo;
 import br.com.cerc.holerite.persistence.model.Descontos;
 import br.com.cerc.holerite.persistence.model.FolhaDePagamento;
 import br.com.cerc.holerite.persistence.model.Funcionario;
@@ -72,9 +67,12 @@ public class FolhaDePagamentoService {
 		double fgts = Adicionais.calcularFGTS(salarioBruto);
 		int mesReferencia = dto.getMesReferencia();
 		int anoReferencia = dto.getAnoReferencia();
+		double horasTrabalhadas = dto.getHorasTrabalhadas();
 		double salarioLiquido = salarioBruto - inss - irrf;
 			
-		FolhaDePagamento folha = new FolhaDePagamento(funcionario, round(inss, 2), round(irrf, 2), round(fgts, 2), mesReferencia, anoReferencia, round(salarioBruto, 2), round(salarioLiquido, 2));
+		FolhaDePagamento folha = new FolhaDePagamento(funcionario, round(inss, 2),
+				round(irrf, 2), round(fgts, 2), mesReferencia, anoReferencia,
+				round(salarioBruto, 2), round(salarioLiquido, 2), round(horasTrabalhadas, 2));
 	
 		return folha;
 	}
