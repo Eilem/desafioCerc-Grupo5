@@ -77,13 +77,12 @@ public class FuncionarioController {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Campo id cargo não pode ser vazio ou menor igual a zero");
 		}
 
-//		List<Cargo> cargoList= cargoRepository.findAll();
-//
-//		for (Cargo cargo: cargoList) {
-//			if (cargo.getId() != funcionarioDto.getCargoId()){
-//				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existe este cargo no banco de dados");
-//			}
-//		}
+		Optional<Cargo> cargo = cargoRepository.findById(funcionarioDto.getCargoId());
+
+		if (cargo.isEmpty()){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existe este cargo no banco de dados");
+		} 
+
 		//busco no banco se já existe funcionario com o cpf recebido
 		Funcionario funcionarioEncontrado = funcionarioService.getFuncionarioByCPF(funcionarioDto.getCpf());
 		if(funcionarioEncontrado != null){
