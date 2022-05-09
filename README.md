@@ -31,7 +31,7 @@ Para executar a aplicação você deve ter:
 
 - [Java 11 +](https://www.oracle.com/java/technologies/downloads/)
 - [Maven](https://maven.apache.org/download.cgi)
-- [Springboot 2.6.6](https://start.spring.io/)
+- [Springboot 2.5.6](https://start.spring.io/)
 - [MySQL](https://www.mysql.com/)
 ___
 
