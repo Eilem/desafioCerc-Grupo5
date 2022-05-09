@@ -47,7 +47,7 @@ public class FolhaDePagamentoController {
 		}
 
 		if (folhaDePagamentoDto.getHorasTrabalhadas() <= 0){
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existe horas trabalhadas!");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não é possível inserir horas trabalhadas menores ou iguais a zero");
 		}
 
 		if ((folhaDePagamentoDto.getMesReferencia() > 12)|| (folhaDePagamentoDto.getMesReferencia() < 1)){
